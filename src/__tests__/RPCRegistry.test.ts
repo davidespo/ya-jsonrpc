@@ -40,6 +40,26 @@ test("RPC Registry: exec method not found", done => {
     const registry: RPCRegistry = new DefaultRPCRegistry();
     
     (async () => {
+        const req: RPCRequest = {
+            method: noop.method.key,
+            params: null,
+            id: nanoid(),
+        }
+        expect(await registry.getMethods()).toHaveLength(0);
+        const res = await registry.exec(req);
+        expect(res).not.toBeNull();
+        expect(res.id).toBe(res.id);
+        expect(res.results).toBeUndefined();
+        expect(typeof res.error).toBe('object');
+        expect(res.error.code).toBe(-32601);
+        done();
+    })()
+});
+
+test("RPC Registry: exec `testing.noop`", done => {
+    const registry: RPCRegistry = new DefaultRPCRegistry();
+    
+    (async () => {
         registry.add(noop);
         const req: RPCRequest = {
             method: noop.method.key,
@@ -49,6 +69,8 @@ test("RPC Registry: exec method not found", done => {
         const res = await registry.exec(req);
         expect(res).not.toBeNull();
         expect(res.id).toBe(res.id);
+        expect(res.results).toBeNull();
+        expect(res.error).toBeUndefined();
         done();
     })()
 });

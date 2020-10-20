@@ -46,7 +46,7 @@ export default class DefaultRPCRegistry implements RPCRegistry {
             response = {
                 id,
                 error: {
-                    code: 123,
+                    code: -32601,
                     message: 'METHOD NOT FOUND'
                 }
             };
