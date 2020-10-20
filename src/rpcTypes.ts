@@ -1,22 +1,23 @@
 export interface RPCRegistry {
-    readonly methods: RPCMethod[];
-    add(method: RPCMethod): void;
+    getMethods(): RPCMethod[];
+    add(method: RPCMethodImpl): void;
     exec(req: RPCRequest): Promise<RPCResponse>;
+    status(id: string): Promise<StatusResponse>;
 }
 
-export interface RPCMethod {
-    readonly summary: RPCMethodSummary;
+export interface RPCMethodImpl {
+    readonly method: RPCMethod;
     init?(registry: RPCRegistry): Promise<void>;
     close?(registry: RPCRegistry): Promise<void>;
     exec(params: any): Promise<any>;
 }
 
-export type RPCMethodSummary = {
+export type RPCMethod = {
     readonly key: string;
     readonly description: string;
     readonly tags: string[];
-    readonly inputs: JsonSchema | null;
-    readonly outputs: JsonSchema | null;
+    readonly inputs: JsonSchema;
+    readonly outputs: JsonSchema;
 }
 
 export interface RPCRequest {
@@ -35,6 +36,21 @@ export interface RPCResponse {
     id: string;
 }
 
-export interface JsonSchema {
+export const STATUS_NOT_FOUND = "NOT_FOUND";
+export const STATUS_QUEUED = "QUEUED";
+export const STATUS_RUNING = "RUNNING";
+export const STATUS_COMPLETE = "COMPLETE";
+export const STATUS_ERROR = "ERROR";
 
+export interface StatusResponse {
+    readonly id: string;
+    readonly startTime: number;
+    readonly endTime: number;
+    readonly state: "NOT_FOUND" | "QUEUED" | "RUNNING" | "COMPLETE" | "ERROR";
+    readonly progress: any | null;
+    readonly result: any | null;
+}
+
+export interface JsonSchema {
+    type: string;
 }

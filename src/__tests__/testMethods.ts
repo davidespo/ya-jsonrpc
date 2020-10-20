@@ -1,7 +1,7 @@
-import { RPCMethod } from '../rpcTypes';
+import { RPCMethodImpl } from '../rpcTypes';
 
-export const noop: RPCMethod = {
-  summary: {
+export const noop: RPCMethodImpl = {
+  method: {
     key: 'testing.noop',
     description: 'Do nothing for testing',
     tags: [],
@@ -20,8 +20,8 @@ test("Noop method doesn\'t explode", done => {
   });
 });
 
-export const sleep: RPCMethod = {
-  summary: {
+export const sleep: RPCMethodImpl = {
+  method: {
     key: 'testing.sleep',
     description: 'Do nothing for testing',
     tags: [],
