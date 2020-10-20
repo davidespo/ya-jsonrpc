@@ -1,8 +1,8 @@
 export interface RPCRegistry {
-    getMethods(): RPCMethod[];
+    getMethods(): Promise<RPCMethod[]>;
     add(method: RPCMethodImpl): void;
     exec(req: RPCRequest): Promise<RPCResponse>;
-    status(id: string): Promise<StatusResponse>;
+    getStatus(id: string): Promise<StatusResponse>;
 }
 
 export interface RPCMethodImpl {
@@ -44,11 +44,11 @@ export const STATUS_ERROR = "ERROR";
 
 export interface StatusResponse {
     readonly id: string;
-    readonly startTime: number;
-    readonly endTime: number;
+    readonly startTime?: number;
+    readonly endTime?: number;
     readonly state: "NOT_FOUND" | "QUEUED" | "RUNNING" | "COMPLETE" | "ERROR";
-    readonly progress: any | null;
-    readonly result: any | null;
+    readonly progress?: any | null;
+    readonly result?: any | null;
 }
 
 export interface JsonSchema {

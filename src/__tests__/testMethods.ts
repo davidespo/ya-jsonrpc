@@ -1,12 +1,14 @@
 import { RPCMethodImpl } from '../rpcTypes';
 
+const NULL_TYPE = { type: 'null' };
+
 export const noop: RPCMethodImpl = {
   method: {
     key: 'testing.noop',
     description: 'Do nothing for testing',
     tags: [],
-    inputs: null,
-    outputs: null,
+    inputs: NULL_TYPE,
+    outputs: NULL_TYPE,
   },
   async exec(params) {
     return null;
@@ -28,7 +30,7 @@ export const sleep: RPCMethodImpl = {
     inputs: {
       type: 'number'
     },
-    outputs: null,
+    outputs: NULL_TYPE,
   },
   exec(params = 0) {
     return new Promise(res => setTimeout(() => res(params), params));
