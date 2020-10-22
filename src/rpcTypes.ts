@@ -16,8 +16,8 @@ export type RPCMethod = {
     readonly key: string;
     readonly description: string;
     readonly tags: string[];
-    readonly inputs: JsonSchema;
-    readonly outputs: JsonSchema;
+    readonly inputs: JSchemaFieldSet | JSchemaEmptyFieldSet;
+    readonly outputs: JSchemaFieldSet | JSchemaEmptyFieldSet;
 }
 
 export interface RPCRequest {
@@ -51,6 +51,32 @@ export interface StatusResponse {
     readonly result?: any | null;
 }
 
-export interface JsonSchema {
-    type: string;
+export type JSchemaFieldSet = {
+    type: "object",
+    properties: {
+        [key: string]: JSchemaStringField | JSchemaNumberField | JSchemaBooleanField
+    }
+}
+
+export type JSchemaEmptyFieldSet = { type: "null" }
+
+export type JSchemaStringField = {
+    type: "string"
+    label: string,
+    tooltip?: string,
+    defaultValue?: string
+}
+
+export type JSchemaNumberField = {
+    type: "number"
+    label: string,
+    tooltip?: string,
+    defaultValue?: number
+}
+
+export type JSchemaBooleanField = {
+    type: "boolean"
+    label: string,
+    tooltip?: string,
+    defaultValue?: boolean
 }

@@ -1,6 +1,6 @@
-import { RPCMethodImpl } from '../rpcTypes';
+import { RPCMethodImpl, JSchemaEmptyFieldSet } from '../rpcTypes';
 
-const NULL_TYPE = { type: 'null' };
+const NULL_TYPE: JSchemaEmptyFieldSet = { type: 'null' };
 
 export const noop: RPCMethodImpl = {
   method: {
@@ -28,7 +28,13 @@ export const sleep: RPCMethodImpl = {
     description: 'Do nothing for testing',
     tags: [],
     inputs: {
-      type: 'number'
+      type: 'object',
+      properties: {
+        delay: {
+          type: 'number',
+          label: 'Delay (ms)'
+        }
+      }
     },
     outputs: NULL_TYPE,
   },
